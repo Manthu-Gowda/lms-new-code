@@ -8,16 +8,16 @@ const initialState = {
     loading: false,
 };
 
-// Async thunk to create a new test
-export const createTest = createAsyncThunk(
-    "test/create",
+// Async thunk to save a test (create or update)
+export const saveTest = createAsyncThunk(
+    "test/save",
     async ({ courseId, data }) => {
         try {
             const res = await axiosInstance.post(`/test/course/${courseId}`, data);
-            toast.success("Test created successfully");
+            toast.success("Test saved successfully");
             return res.data;
         } catch (error) {
-            toast.error(error?.response?.data?.message || "Failed to create test");
+            toast.error(error?.response?.data?.message || "Failed to save test");
             throw error;
         }
     }
@@ -31,7 +31,6 @@ export const getTestByCourseId = createAsyncThunk(
             const res = await axiosInstance.get(`/test/course/${courseId}`);
             return res.data.test;
         } catch (error) {
-            // Don't show a toast message if no test is found
             if (error?.response?.status !== 404) {
                 toast.error(error?.response?.data?.message || "Failed to fetch test");
             }
@@ -53,7 +52,6 @@ export const getTestById = createAsyncThunk(
         }
     }
 );
-
 
 // Async thunk to add a question to a test
 export const addQuestionToTest = createAsyncThunk(
@@ -100,28 +98,27 @@ export const deleteTest = createAsyncThunk(
     }
 );
 
-
 const testSlice = createSlice({
     name: "test",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            // Create Test
-            .addCase(createTest.pending, (state) => {
+            // Save Test
+            .addCase(saveTest.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(createTest.fulfilled, (state, action) => {
+            .addCase(saveTest.fulfilled, (state, action) => {
                 state.loading = false;
-                state.tests.push(action.payload.test);
+                state.currentTest = action.payload.test;
             })
-            .addCase(createTest.rejected, (state) => {
+            .addCase(saveTest.rejected, (state) => {
                 state.loading = false;
             })
             // Get Test by Course ID
             .addCase(getTestByCourseId.pending, (state) => {
                 state.loading = true;
-                state.currentTest = null; 
+                state.currentTest = null;
             })
             .addCase(getTestByCourseId.fulfilled, (state, action) => {
                 state.loading = false;

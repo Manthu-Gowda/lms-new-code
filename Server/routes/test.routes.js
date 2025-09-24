@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { createTest, getTestByCourseId, addQuestionToTest, removeQuestionFromTest, deleteTest, getTestById } from '../controllers/test.controllers.js';
+import { createOrUpdateTest, getTestByCourseId, addQuestionToTest, removeQuestionFromTest, deleteTest, getTestById } from '../controllers/test.controllers.js';
 import { isLoggedIn, authorizedRoles } from '../middlewares/auth.middlewares.js';
 
 const router = Router();
 
-// Route for creating a test and getting a test by course ID
+// Route for creating or updating a test and getting a test by course ID
 router.route('/course/:courseId')
-    .post(isLoggedIn, authorizedRoles('ADMIN'), createTest)
+    .post(isLoggedIn, authorizedRoles('ADMIN'), createOrUpdateTest)
     .get(isLoggedIn, getTestByCourseId);
 
 // Route for getting a test by its own ID

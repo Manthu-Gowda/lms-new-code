@@ -82,7 +82,7 @@ function AdminDeshboard() {
                     <td>{course.numbersOfLectures}</td>
                     <td className="space-x-2">
                       <button
-                        onClick={() => navigate("/test/create", { state: { courseId: course._id, title: course.title } })}
+                        onClick={() => navigate(`/test/create/${course._id}`, { state: { title: course.title } })}
                         className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-1 px-2 rounded text-sm"
                       >
                         Add Test

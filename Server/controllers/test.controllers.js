@@ -2,8 +2,8 @@ import Test from '../models/test.model.js';
 import Course from '../models/course.model.js';
 import AppError from '../utils/error.util.js';
 
-// Create a new test
-export const createTest = async (req, res, next) => {
+// Create or update a test for a course
+export const createOrUpdateTest = async (req, res, next) => {
     try {
         const { courseId } = req.params;
         const { title, questions } = req.body;
@@ -13,13 +13,27 @@ export const createTest = async (req, res, next) => {
             return next(new AppError('Course not found', 404));
         }
 
-        const test = await Test.create({ courseId, title, questions });
+        let test = await Test.findOne({ courseId });
 
-        res.status(201).json({
-            success: true,
-            message: 'Test created successfully',
-            test,
-        });
+        if (test) {
+            // If test exists, update it
+            test.title = title;
+            test.questions = questions;
+            await test.save();
+            res.status(200).json({
+                success: true,
+                message: 'Test updated successfully',
+                test,
+            });
+        } else {
+            // If test does not exist, create a new one
+            test = await Test.create({ courseId, title, questions });
+            res.status(201).json({
+                success: true,
+                message: 'Test created successfully',
+                test,
+            });
+        }
     } catch (error) {
         return next(new AppError(error.message, 500));
     }

@@ -23,7 +23,12 @@ function getYouTubeId(url) {
 function DisplayLectures() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { state } = useLocation();
+    const { state, search } = useLocation();
+    const params = new URLSearchParams(search);
+    const courseIdFromQuery = params.get('courseId');
+
+    const courseId = state?._id || courseIdFromQuery;
+
     const { lectures } = useSelector((state) => state.lecture);
     const { role } = useSelector((state) => state.auth);
     const { currentTest } = useSelector((state) => state.test);
@@ -31,10 +36,13 @@ function DisplayLectures() {
     const [currentVideo, setCurrentVideo] = useState(0);
 
     useEffect(() => {
-        if (!state) navigate("/courses");
-        dispatch(getCourseLectures(state._id));
-        dispatch(getTestByCourseId(state._id));
-    }, [state, dispatch, navigate]);
+        if (courseId) {
+            dispatch(getCourseLectures(courseId));
+            dispatch(getTestByCourseId(courseId));
+        } else {
+            navigate("/courses");
+        }
+    }, [courseId, dispatch, navigate]);
 
     if (!lectures || lectures.length === 0) {
         return (
@@ -155,6 +163,14 @@ function DisplayLectures() {
                             {role === "ADMIN" && (
                                 <button onClick={() => navigate("/course/addlecture", { state: { ...state } })} className="btn-primary px-2 py-1 rounded-md font-semibold text-sm">
                                     Add Lecture
+                                </button>
+                            )}
+                            {role === "ADMIN" && (
+                                <button 
+                                    onClick={() => navigate(`/test/create/${courseId}`, { state: { title: state?.title } })}
+                                    className="btn-primary px-2 py-1 rounded-md font-semibold text-sm bg-green-500 hover:bg-green-600"
+                                >
+                                    {currentTest ? "Edit Test" : "Add Test"}
                                 </button>
                             )}
                         </div>
