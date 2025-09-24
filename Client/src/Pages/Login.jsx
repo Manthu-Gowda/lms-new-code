@@ -28,7 +28,7 @@ function Login(){
    async function onLogin(event){
         event.preventDefault();
         if (!loginData.email || !loginData.password) {
-            toast.error("Please fill all the details ");
+            toast.error("Please fill all the details and Profile Image also");
             return;
         }
 

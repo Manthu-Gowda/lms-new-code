@@ -13,6 +13,7 @@ import Denied from './Pages/Denied.jsx'
 import AddLecture from './Pages/Deshboard/Addlecture.jsx'
 import AdminDeshboard from './Pages/Deshboard/AdminDeshboard.jsx'
 import Displaylectures from './Pages/Deshboard/DisplayLectures.jsx'
+import AllUsers from './Pages/Deshboard/AllUsers.jsx'
 import HomePage from './Pages/HomePage.jsx'
 import Login from './Pages/Login.jsx'
 import NotFound from './Pages/NotFound.jsx'
@@ -46,6 +47,7 @@ function App() {
            <Route path='/course/edit' element={<EditCourse/>}></Route>
            <Route path='/course/addlecture' element={<AddLecture/>}></Route>
            <Route path='/admin/deshboard' element={<AdminDeshboard/>}></Route>
+           <Route path='/admin/all-users' element={<AllUsers/>}></Route>
            <Route path='/test/create' element={<CreateTest />} />
           </Route>
 

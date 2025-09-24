@@ -347,3 +347,15 @@ export const updateUser=asyncHandler(async(req, res,next)=>{
     })
 })
 
+export const getAllUsers = asyncHandler(async (req, res, next) => {
+  try {
+    const users = await User.find({}).select('-password');
+    res.status(200).json({
+      success: true,
+      message: 'All users', 
+      users,
+    });
+  } catch (error) {
+    return next(new AppError('Failed to fetch users', 500));
+  }
+});
