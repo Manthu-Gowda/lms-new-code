@@ -5,7 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 import HomeLayout from "../../Layouts/HomeLayout";
 import { getuserData } from "../../Redux/Slices/AuthSlice";
-import { cancelCourseBundle } from "../../Redux/Slices/RazorpaySlice";
 
 function Profile(){
 
@@ -17,7 +16,6 @@ function Profile(){
      async function handleCancelation() {
         if(window.confirm("Are you Sure Want  Cancel Subscription ?")){
             toast("Initiating cancellation..")
-            await dispatch(cancelCourseBundle());
             await dispatch(getuserData());
             toast.success("Cancellation completed!");
             navigate("/")

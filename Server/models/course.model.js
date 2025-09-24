@@ -1,47 +1,43 @@
-import {model , Schema} from "mongoose";
-
-/**
- * @courseSchema - Mongoose schema for Course.
- * This schema defines the structure and validation rules for course data, including title, description, category, thumbnail, lectures, and metadata.
- */
+import {model, Schema} from 'mongoose';
 
 const courseSchema = new Schema({
     title:{
         type:String,
-        required:[true, "Title is required" ],
-        minLength:[8, "Title must be atleast 8 characters"],
-        maxLength:[60,"Title should be less than 60 characters"],
-        trim:true
+        required:[true, 'Title is required'],
+        minLength:[8, 'Title must be atleast 8 characters'],
+        maxLength:[60, 'Title should be less then 60 characters'],
+        trim:true, 
     },
     description:{
-        type: String,
-        required:[true, "Description is required" ],
-        minLength:[8, "Description must be atleast 8 characters"],
-        maxLength:[200,"Description should be less than 200 characters"],
-        trim:true
+        type:String,
+        required:[true, 'description is required'],
+        minLength:[8, 'description must be atleast 8 characters'],
+        maxLength:[200, 'description should be less then 200 characters'],
     },
     category:{
         type:String,
-        required:[true, "Category is required" ],
+        required:[true, 'category is required'],
     },
     thumbnail:{
         public_id:{
             type:String,
-            required:true,
         },
         secure_url:{
             type:String,
-            required:true,
         }
     },
     lectures:[
         {
             title:String,
             description:String,
+            lectureType: { 
+                type: String, 
+                enum: ['Video', 'PDF', 'YouTube'],
+                required: true
+            },
             lecture:{
                 public_id:{
                     type:String,
-                    required:true,
                 },
                 secure_url:{
                     type:String,
@@ -50,7 +46,7 @@ const courseSchema = new Schema({
             }
         }
     ],
-    numberOfLectures:{
+    numbersOfLectures:{
         type:Number,
         default:0,
     },
@@ -58,10 +54,9 @@ const courseSchema = new Schema({
         type:String,
         required:true,
     }
-
 },{
     timestamps:true
-})
+});
 
 const Course = model('Course', courseSchema);
 

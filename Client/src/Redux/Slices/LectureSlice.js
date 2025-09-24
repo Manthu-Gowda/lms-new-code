@@ -21,18 +21,14 @@ export const getCourseLectures= createAsyncThunk("/course/lecture/get", async(ci
     }
 });
 
-export const addCourseLectures= createAsyncThunk("/course/lecture/add", async(data)=>{
+export const addCourseLectures = createAsyncThunk("/course/lecture/add", async (data) => {
     try {
-        const fromData = new FormData();
-        fromData.append("lecture",data.lecture);
-        fromData.append("title",data.title);
-        fromData.append("description",data.description);
-        
-        const response = axiosInstance.post(`/course/${data.id}`,fromData);
-        toast.promise(response,{
-            loading:"Adding course lecture",
-            success:"Lectures added successfully",
-            error:"Failed to add the lectures"
+        const { id, formData } = data; // Destructure the id and formData from the payload
+        const response = axiosInstance.post(`/course/${id}`, formData);
+        toast.promise(response, {
+            loading: "Adding course lecture",
+            success: "Lecture added successfully",
+            error: "Failed to add the lecture"
         });
         return (await response).data;
     } catch (error) {
@@ -45,9 +41,9 @@ export const deleteCourseLecture= createAsyncThunk("/course/lecture/delete", asy
 
         const response = axiosInstance.delete(`/course/${data.courseId}/lectures/${data.lectureId}`);
         toast.promise(response,{
-            loading:"Delete course lecture",
-            success:"Lecture delete successfully",
-            error:"Failed to delete the lectures"
+            loading:"Deleting course lecture",
+            success:"Lecture deleted successfully",
+            error:"Failed to delete the lecture"
         });
         return (await response).data;
     } catch (error) {
@@ -64,7 +60,10 @@ const lectureSlice = createSlice({
             state.lectures=action?.payload?.lectures;
         })
         .addCase(addCourseLectures.fulfilled,(state, action)=>{
-            state.lectures=action?.payload?.lectures;
+            // The backend should return the updated course with the new lectures list
+            if(action?.payload?.course?.lectures) {
+                state.lectures = action.payload.course.lectures;
+            }
         })
     }
 

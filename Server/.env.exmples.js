@@ -1,7 +1,7 @@
 PORT = <Port number >
-MONGODB_URL=<Connection_LINK>
-JWT_SECRET = <YOUR_LONG_JWT_SECRET>
-JWT_EXPIRY = <JWT_EXPIRY>
+MONGODB_URL=mongodb+srv://kmanthugowda:Manthu%40420@nodereactdemo.veoscsu.mongodb.net/lms
+JWT_SECRET = 5e039b9bb319a7996c5fdba92cf634a4996f58b68efc3f88f17fbca989f01e39
+JWT_EXPIRY = 1d
 
 FRONTEND_URL = <YOUR_FRONTEND_WEBSITE_URL>
 

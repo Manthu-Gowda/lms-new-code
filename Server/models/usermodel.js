@@ -4,7 +4,7 @@ import { Schema,model } from "mongoose";
 
 import bcrypt from'bcryptjs';
 /**
- * @userSchema - Mongoose schema for storing user details, including personal information, password, subscription, and role.
+ * @userSchema - Mongoose schema for storing user details, including personal information, password, and role.
  * The schema also includes methods for password encryption, JWT token generation, and password reset functionality.
  */
 const userSchema= new Schema({
@@ -33,10 +33,6 @@ const userSchema= new Schema({
         minLength:[8,'Password must be 8 charchter'],
         select:false
     },
-    subscription: {
-        id: String,
-        status: String,
-     },
     avatar:{
         public_id:{
             type:'String',
@@ -70,10 +66,10 @@ userSchema.methods = {
       return await bcrypt.compare(plainPassword, this.password);
     },
   
-    // Will generate a JWT token with user id as payload
+    // Will generate a JWT token with user id and role as payload
     generateJWTToken: async function () {
       return await jwt.sign(
-        { id: this._id, role: this.role, subscription: this.subscription },
+        { id: this._id, role: this.role },
         process.env.JWT_SECRET,
         {
           expiresIn: process.env.JWT_EXPIRY,

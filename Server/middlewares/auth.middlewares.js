@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 
-import User from '../models/usermodel.js'
 import AppError from "../utils/error.util.js";
 
 /**
@@ -26,29 +25,17 @@ const isLoggedIn = async (req, res, next)=>{
  * It ensures that the current user has one of the roles required to access the route.
  */
 const authorizedRoles = (...roles)=>async(req, res, next)=>{
-    const currentUserRoles =req.user.roles;
-    if(roles.includes(currentUserRoles)){
+    const currentUserRole = req.user.role;
+    if(!roles.includes(currentUserRole)){
         return next (
-            new AppError("You do not have permission to acess this route", 400)
+            new AppError("You do not have permission to access this route", 403)
         )
     }
     next();
 }
-/**
- * @authorizedSubscriber - Middleware to check if the user has an active subscription.
- * If the user is not an admin and does not have an active subscription, it returns a "Forbidden" error.
- */
-const authorizedSubscriber =async(req, res, next) =>{
-    const user = await User.findById(id)
-    const subscription = user.subscription.status
-    const currentUserRole = user.role
-    if (currentUserRole !== 'ADMIN' && subscription !== 'active') {
-        return next(createError(403, "please subscribe to access this"))
-    }
-}
+
 export{
     isLoggedIn,
-    authorizedRoles,
-    authorizedSubscriber,
+    authorizedRoles
 }
     
