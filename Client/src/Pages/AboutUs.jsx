@@ -1,5 +1,5 @@
 import aboutMainImage from "../Assets/Images/aboutMainImage.png";
-import CarouselSlide from "../Compontents/CarouselSlide";
+import CarouselSlide from "../Components/CarouselSlide.jsx";
 import { celebrities } from "../Constants/CelebrityData";
 import HomeLayout from "../Layouts/HomeLayout";
 

@@ -2,7 +2,7 @@ import './App.css'
 
 import { Route, Routes } from 'react-router-dom'
 
-import RequireAuth from './Compontents/Auth/RequireAuth.jsx'
+import RequireAuth from './Components/Auth/RequireAuth.jsx'
 import AboutUs from './Pages/AboutUs.jsx'
 import Contact from './Pages/Contact.jsx'
 import CourseDescripition from './Pages/Course/CourseDescription.jsx'
