@@ -25,6 +25,7 @@ import EditProfile from './Pages/User/EditProfile.jsx'
 import Profile from './Pages/User/Profile.jsx'
 import CreateTest from './Pages/Test/CreateTest.jsx';
 import DisplayTest from './Pages/Test/DisplayTest.jsx';
+import Certificate from './Pages/Certificate.jsx';
 
 function App() {
   return (
@@ -58,6 +59,7 @@ function App() {
             <Route path='/course/displaylectures' element={<Displaylectures/>}></Route>
             <Route path='/course/edit' element={<EditCourse/>}></Route>
             <Route path='/test/display' element={<DisplayTest />} />
+            <Route path='/certificate/:courseId' element={<Certificate />} />
           </Route>
                   
           <Route path='*' element={<NotFound/>}></Route>

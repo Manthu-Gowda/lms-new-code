@@ -5,6 +5,8 @@ import CourseSliceReducer from "./Slices/CourseSlice";
 import LecturesReducer from './Slices/LectureSlice'
 import  StatReducer from './Slices/StatSlice';
 import TestSliceReducer from './Slices/TestSlice';
+import ProjectSliceReducer from './Slices/ProjectSlice';
+import TestResultSliceReducer from './Slices/TestResultSlice';
 
 const store = configureStore({
     reducer:{
@@ -13,6 +15,8 @@ const store = configureStore({
         lecture:LecturesReducer,
         stat:StatReducer,
         test: TestSliceReducer,
+        project: ProjectSliceReducer,
+        testResult: TestResultSliceReducer
     },
     devTools: true
 })

@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCourseLectures } from "../../Redux/Slices/LectureSlice.js";
 import { getTestByCourseId } from "../../Redux/Slices/TestSlice.js";
+import { getProjectSubmission } from "../../Redux/Slices/ProjectSlice.js";
+import { getTestResult } from "../../Redux/Slices/TestResultSlice.js";
+import UploadProject from "../UploadProject.jsx";
 
 // Helper function to extract YouTube video ID from URL
 function getYouTubeId(url) {
@@ -32,28 +35,35 @@ function DisplayLectures() {
     const { lectures } = useSelector((state) => state.lecture);
     const { role } = useSelector((state) => state.auth);
     const { currentTest } = useSelector((state) => state.test);
+    const { projectSubmission } = useSelector((state) => state.project);
+    const { testResult } = useSelector((state) => state.testResult);
 
     const [currentVideo, setCurrentVideo] = useState(0);
+    const [isUploadingProject, setIsUploadingProject] = useState(false);
 
     useEffect(() => {
         if (courseId) {
             dispatch(getCourseLectures(courseId));
             dispatch(getTestByCourseId(courseId));
+            dispatch(getProjectSubmission(courseId));
         } else {
             navigate("/courses");
         }
     }, [courseId, dispatch, navigate]);
 
-    if (!lectures || lectures.length === 0) {
+    useEffect(() => {
+        if (currentTest?._id) {
+            dispatch(getTestResult(currentTest._id));
+        }
+    }, [dispatch, currentTest]);
+
+    const hasAttempted = !!testResult;
+    const testPassed = hasAttempted && testResult.score >= testResult.totalMarks * 0.5;
+
+    if (!lectures) {
         return (
             <div className="flex flex-col items-center justify-center h-screen text-white">
-                <h1 className="text-3xl font-bold mb-4">No lectures found for this course.</h1>
-                <button 
-                    onClick={() => navigate(-1)}
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded"
-                >
-                    Go Back
-                </button>
+                <h1 className="text-3xl font-bold mb-4">Loading lectures...</h1>
             </div>
         );
     }
@@ -134,57 +144,108 @@ function DisplayLectures() {
             <h1 className="text-2xl font-semibold text-yellow-500 mt-12">
                 Course Name: {state?.title}
             </h1>
-            <div className="flex flex-col md:flex-row justify-center gap-10 w-full">
-                <div className="space-y-5 w-full md:w-8/12 p-2 rounded-lg shadow-[0_0_10px_black]">
-                    {renderLecture()}
-                    <div className="p-4">
-                        <h1 className="text-lg font-semibold">
-                            <span className="text-yellow-500">Title: </span>
-                            {currentLecture?.title}
-                        </h1>
-                        <p className="mt-2">
-                            <span className="text-yellow-500">Description: </span>
-                            {currentLecture?.description}
-                        </p>
-                    </div>
+
+            {isUploadingProject ? (
+                <div className="w-full max-w-lg text-center">
+                    <UploadProject courseId={courseId} />
+                    <button 
+                        onClick={() => setIsUploadingProject(false)}
+                        className="mt-4 w-full bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                    >
+                        Back to Lectures
+                    </button>
                 </div>
-                <ul className="w-full md:w-4/12 p-2 rounded-lg shadow-[0_0_10px_black] space-y-4 h-fit">
-                    <li className="font-semibold text-xl text-yellow-500 flex items-center justify-between">
-                        <p>Lectures List</p>
-                        <div className="flex items-center gap-2">
-                            {currentTest && (
-                                <button 
-                                    onClick={() => navigate("/test/display", { state: { testId: currentTest._id, courseTitle: state?.title } })}
-                                    className="btn-primary px-2 py-1 rounded-md font-semibold text-sm bg-purple-500 hover:bg-purple-600"
-                                >
-                                    View Test
-                                </button>
-                            )}
-                            {role === "ADMIN" && (
-                                <button onClick={() => navigate("/course/addlecture", { state: { ...state } })} className="btn-primary px-2 py-1 rounded-md font-semibold text-sm">
-                                    Add Lecture
-                                </button>
-                            )}
-                            {role === "ADMIN" && (
-                                <button 
-                                    onClick={() => navigate(`/test/create/${courseId}`, { state: { title: state?.title } })}
-                                    className="btn-primary px-2 py-1 rounded-md font-semibold text-sm bg-green-500 hover:bg-green-600"
-                                >
-                                    {currentTest ? "Edit Test" : "Add Test"}
-                                </button>
-                            )}
+            ) : (
+                lectures.length > 0 ? (
+                    <div className="flex flex-col md:flex-row justify-center gap-10 w-full">
+                        <div className="space-y-5 w-full md:w-8/12 p-2 rounded-lg shadow-[0_0_10px_black]">
+                            {renderLecture()}
+                            <div className="p-4">
+                                <h1 className="text-lg font-semibold">
+                                    <span className="text-yellow-500">Title: </span>
+                                    {currentLecture?.title}
+                                </h1>
+                                <p className="mt-2">
+                                    <span className="text-yellow-500">Description: </span>
+                                    {currentLecture?.description}
+                                </p>
+                            </div>
                         </div>
-                    </li>
-                    {lectures.map((lecture, idx) => (
-                        <li className="space-y-2" key={lecture._id}>
-                            <p className={`cursor-pointer p-2 rounded-md ${currentVideo === idx ? 'bg-yellow-600' : 'hover:bg-gray-700'}`} onClick={() => setCurrentVideo(idx)}>
-                                <span className="font-semibold">Lecture {idx + 1}: </span>
-                                {lecture?.title}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                        <ul className="w-full md:w-4/12 p-2 rounded-lg shadow-[0_0_10px_black] space-y-4 h-fit">
+                            <li className="font-semibold text-xl text-yellow-500 flex items-center justify-between">
+                                <p>Lectures List</p>
+                                <div className="flex items-center gap-2">
+                                     {/* User-specific buttons */}
+                                    {role === 'USER' && currentTest && !hasAttempted && (
+                                        <button 
+                                            onClick={() => navigate("/test/display", { state: { testId: currentTest._id, courseTitle: state?.title } })}
+                                            className="btn-primary px-2 py-1 rounded-md font-semibold text-sm bg-purple-500 hover:bg-purple-600"
+                                        >
+                                            View Test
+                                        </button>
+                                    )}
+                                    {role === 'USER' && testPassed && !projectSubmission && (
+                                        <button 
+                                            onClick={() => setIsUploadingProject(true)}
+                                            className="btn-primary px-2 py-1 rounded-md font-semibold text-sm bg-green-500 hover:bg-green-600"
+                                        >
+                                            Upload Project
+                                        </button>
+                                    )}
+                                    {role === 'USER' && testPassed && projectSubmission && (
+                                        <button 
+                                            onClick={() => navigate(`/certificate/${courseId}`)}
+                                            className="btn-primary px-2 py-1 rounded-md font-semibold text-sm bg-blue-500 hover:bg-blue-600"
+                                        >
+                                            View Certificate
+                                        </button>
+                                    )}
+
+                                    {/* Admin-specific buttons */}
+                                    {role === "ADMIN" && (
+                                        <>
+                                            {currentTest && (
+                                                <button 
+                                                    onClick={() => navigate("/test/display", { state: { testId: currentTest._id, courseTitle: state?.title } })}
+                                                    className="btn-primary px-2 py-1 rounded-md font-semibold text-sm bg-purple-500 hover:bg-purple-600"
+                                                >
+                                                    View Test
+                                                </button>
+                                            )}
+                                            <button onClick={() => navigate("/course/addlecture", { state: { ...state } })} className="btn-primary px-2 py-1 rounded-md font-semibold text-sm">
+                                                Add Lecture
+                                            </button>
+                                            <button 
+                                                onClick={() => navigate(`/test/create/${courseId}`, { state: { title: state?.title } })}
+                                                className="btn-primary px-2 py-1 rounded-md font-semibold text-sm bg-green-500 hover:bg-green-600"
+                                            >
+                                                {currentTest ? "Edit Test" : "Add Test"}
+                                            </button>
+                                        </>
+                                    )}
+                                </div>
+                            </li>
+                            {lectures.map((lecture, idx) => (
+                                <li className="space-y-2" key={lecture._id}>
+                                    <p className={`cursor-pointer p-2 rounded-md ${currentVideo === idx ? 'bg-yellow-600' : 'hover:bg-gray-700'}`} onClick={() => setCurrentVideo(idx)}>
+                                        <span className="font-semibold">Lecture {idx + 1}: </span>
+                                        {lecture?.title}
+                                    </p>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                ) : (
+                    <div className="text-center w-full">
+                         <p className="text-2xl font-bold mb-4">No lectures found for this course.</p>
+                         {role === "ADMIN" && (
+                            <button onClick={() => navigate("/course/addlecture", { state: { ...state } })} className="btn-primary px-4 py-2 rounded-md font-semibold text-lg">
+                                Add First Lecture
+                            </button>
+                        )}
+                    </div>
+                )
+            )}
         </div>
     );
 }
