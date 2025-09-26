@@ -6,3 +6,17 @@ body{
     /* max-width: 1440px; */
     position: relative;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 4px;
+  background: white; /* sets the background to white */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #94a3b8; /* slate-400 */
+  border-radius: 4px;
+}

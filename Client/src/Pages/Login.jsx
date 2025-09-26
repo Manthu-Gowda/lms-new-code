@@ -1,99 +1,134 @@
 import { useState } from "react";
-import {toast} from 'react-hot-toast'
+import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import HomeLayout from "../Layouts/HomeLayout";
 import { login } from "../Redux/Slices/AuthSlice";
+import { Mail, Lock } from "lucide-react"; // icons
 
-function Login(){
+function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const dispatch = useDispatch();
-   const navigate = useNavigate();
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
 
-
-    const [loginData, setloginData]=useState({
-        email:"",
-        password:"",
+  function handleUserInput(e) {
+    const { name, value } = e.target;
+    setLoginData({
+      ...loginData,
+      [name]: value,
     });
+  }
 
-    function handleUserInput(e){
-        const{name, value}=e.target;
-        setloginData({
-            ...loginData,
-            [name]:value
-        })
+  async function onLogin(event) {
+    event.preventDefault();
+    if (!loginData.email || !loginData.password) {
+      toast.error("Please fill all the details");
+      return;
     }
 
-   async function onLogin(event){
-        event.preventDefault();
-        if (!loginData.email || !loginData.password) {
-            toast.error("Please fill all the details and Profile Image also");
-            return;
-        }
-
-
-        //dispatch create account action
-       const response = await dispatch(login(loginData));
-        if(response?.payload?.success){
-            navigate("/");
-            setloginData({
-                email:"",
-                password:"",
-            })
-        }
+    const response = await dispatch(login(loginData));
+    if (response?.payload?.success) {
+      navigate("/");
+      setLoginData({
+        email: "",
+        password: "",
+      });
     }
-    return(
-        <HomeLayout>
-                <div className=" flex items-center justify-center h-[90vh]">
-                    <form  noValidate onSubmit={onLogin} className="flex flex-col   justify-center gap-3  rounded-lg text-white p-4  w-80  shadow-[0_0_10px_black] ">
-                        <h1 className="text-center text-2xl font-bold">Login Page</h1>
+  }
 
-                        <div className="flex flex-col gap-1">
-                            <label htmlFor="email" className="font-semibold">Email</label>
-                            <input 
-                                type="email"
-                                required
-                                name="email"
-                                id="email"
-                                placeholder="Enter your email...."
-                                className=" bg-transparent px-2 py-1 border"
-                                onChange={handleUserInput}
-                                value={loginData.email}
-                             />
-                        </div>
+  return (
+    <HomeLayout>
+      <div className="flex items-center justify-center min-h-[90vh] px-4">
+        <form
+          noValidate
+          onSubmit={onLogin}
+          className="flex flex-col gap-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-2xl p-8 w-full max-w-md"
+        >
+          <h1 className="text-center text-3xl font-bold text-white">
+            Welcome Back 👋
+          </h1>
+          <p className="text-center text-gray-300 text-sm">
+            Login to continue to your account
+          </p>
 
-                        <div className="flex flex-col gap-1">
-                            <label htmlFor="password" className="font-semibold">Password</label>
-                            <input 
-                                type="password"
-                                required
-                                name="password"
-                                id="password"
-                                placeholder="Enter your password...."
-                                className=" bg-transparent px-2 py-1 border"
-                                onChange={handleUserInput}
-                                value={loginData.password}
-                             />
-                        </div>
+          {/* Email Field */}
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="email"
+              className="font-medium text-sm text-gray-200"
+            >
+              Email
+            </label>
+            <div className="flex items-center gap-2 bg-white/5 border border-white/20 rounded-lg px-3 py-2 focus-within:border-yellow-500">
+              <Mail className="w-5 h-5 text-gray-400" />
+              <input
+                type="email"
+                required
+                name="email"
+                id="email"
+                placeholder="Enter your email"
+                className="w-full bg-transparent outline-none text-white placeholder-gray-400"
+                onChange={handleUserInput}
+                value={loginData.email}
+              />
+            </div>
+          </div>
 
-                        <button  type="submit" className=" mt-2 bg-yellow-600 hover:bg-yellow-500 py-2 font-semibold text-lg cursor-pointer transition-all ease-in-out duration-300  rounded-sm">
-                                Login
-                        </button>
+          {/* Password Field */}
+          <div className="flex flex-col gap-2">
+            <label
+              htmlFor="password"
+              className="font-medium text-sm text-gray-200"
+            >
+              Password
+            </label>
+            <div className="flex items-center gap-2 bg-white/5 border border-white/20 rounded-lg px-3 py-2 focus-within:border-yellow-500">
+              <Lock className="w-5 h-5 text-gray-400" />
+              <input
+                type="password"
+                required
+                name="password"
+                id="password"
+                placeholder="Enter your password"
+                className="w-full bg-transparent outline-none text-white placeholder-gray-400"
+                onChange={handleUserInput}
+                value={loginData.password}
+              />
+            </div>
+          </div>
 
-                        <Link to={"/forget-password"}>
-                            <p className="text-center link text-accent cursor-pointer">
-                            Forget Password
-                            </p>
-                        </Link>
-          
-                        <p className="text-center">
-                         Donot have an account ? <Link to="/signup" className=" link  text-accent cursor-pointer">Signup</Link>
-                        </p>
+          {/* Login Button */}
+          <button
+            type="submit"
+            className="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-2 rounded-lg transition-all duration-300"
+          >
+            Login
+          </button>
 
-                    </form>
-                </div>
-        </HomeLayout>
-    )
+          {/* Links */}
+          <div className="flex justify-between text-sm text-gray-300">
+            <Link
+              to={"/forget-password"}
+              className="hover:text-yellow-400 transition-colors"
+            >
+              Forgot Password?
+            </Link>
+            <Link
+              to="/signup"
+              className="hover:text-yellow-400 transition-colors"
+            >
+              Sign Up
+            </Link>
+          </div>
+        </form>
+      </div>
+    </HomeLayout>
+  );
 }
+
 export default Login;

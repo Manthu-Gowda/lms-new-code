@@ -1,88 +1,97 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
-import { Link} from "react-router-dom"
+import { Link } from "react-router-dom";
+import { Mail } from "lucide-react"; // icon
 
 import { isEmail } from "../../Helpers/regexMatcher";
 import HomeLayout from "../../Layouts/HomeLayout";
 import { forgetPassword } from "../../Redux/Slices/AuthSlice";
 
-function ForgetPassword(){
-    const dispatch = useDispatch();
+function ForgetPassword() {
+  const dispatch = useDispatch();
 
-    const [data, setData] = useState({
-        email:""
-    });
-    
-    const handleFormSubmit = async (event) => {
-        event.preventDefault();
-    
-        // checking for the empty field
-        if (!data.email) {
-          toast.error("All fields are mandatory");
-          return;
-        }
-    
-        // email validation using regex
-       if (!isEmail(data.email)) {
-            toast.error("Invaild email id  ")
-            return;
-        }
-    
-        // calling the api from auth slice
-        const response = await dispatch(forgetPassword(data));
-        // console.log(response)
-        if(response?.payload?.success){
-            setData({
-                email:""
-            });
-        }
-      };
+  const [data, setData] = useState({
+    email: "",
+  });
 
-    return (
-        <HomeLayout>
-               <div className="flex items-center justify-center h-[100vh]">
-                    {/* forget password card */}
-                    <form
-                    onSubmit={handleFormSubmit}
-                    className="flex flex-col justify-center gap-6 rounded-lg p-4 text-white w-80 h-[26rem] shadow-[0_0_10px_black]"
-                    >
-                    <h1 className="text-center text-2xl font-bold">Forget Password</h1>
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
 
-                    <p>
-                        Enter your registered email, we will send you a verification link on
-                        your registered email from which you can reset your password
-                    </p>
+    if (!data.email) {
+      toast.error("Please enter your email");
+      return;
+    }
 
-                    <div className="flex flex-col gap-1">
-                        <input
-                        required
-                        type="email"
-                        name="email"
-                        id="email"
-                        placeholder="Enter your registered email"
-                        className="bg-transparent px-2 py-1 border"
-                        value={data.email}
-                        onChange={(event) => setData({email:event.target.value})}
-                        />
-                    </div>
+    if (!isEmail(data.email)) {
+      toast.error("Invalid email address");
+      return;
+    }
 
-                    <button
-                        className="w-full bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300 rounded-sm py-2 font-semibold text-lg cursor-pointer"
-                        type="submit"
-                    >
-                        Get Verification Link
-                    </button>
+    const response = await dispatch(forgetPassword(data));
+    if (response?.payload?.success) {
+      setData({ email: "" });
+      toast.success("Verification link sent to your email!");
+    }
+  };
 
-                    <p className="text-center">
-                        Already have an account ?{" "}
-                        <Link to={"/login"} className="link text-accent cursor-pointer">
-                        Login
-                        </Link>
-                    </p>
-                    </form>
-                </div>
-        </HomeLayout>
-    )
+  return (
+    <HomeLayout>
+      <div className="flex items-center justify-center min-h-[90vh] px-4">
+        <form
+          onSubmit={handleFormSubmit}
+          className="flex flex-col gap-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-2xl p-8 w-full max-w-md text-white"
+        >
+          <h1 className="text-center text-3xl font-bold">
+            Forgot Password 🔑
+          </h1>
+          <p className="text-center text-gray-300 text-sm leading-relaxed">
+            Enter your registered email and we’ll send you a verification link
+            to reset your password.
+          </p>
+
+          {/* Email Input */}
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email" className="font-medium text-sm text-gray-200">
+              Email Address
+            </label>
+            <div className="flex items-center gap-2 bg-white/5 border border-white/20 rounded-lg px-3 py-2 focus-within:border-yellow-500">
+              <Mail className="w-5 h-5 text-gray-400" />
+              <input
+                required
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Enter your registered email"
+                className="w-full bg-transparent outline-none text-white placeholder-gray-400"
+                value={data.email}
+                onChange={(e) => setData({ email: e.target.value })}
+              />
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="mt-2 bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-yellow-500/40"
+          >
+            Get Verification Link
+          </button>
+
+          {/* Back to Login */}
+          <p className="text-center text-gray-300 text-sm">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="hover:text-yellow-400 transition-colors font-medium"
+            >
+              Login
+            </Link>
+          </p>
+        </form>
+      </div>
+    </HomeLayout>
+  );
 }
+
 export default ForgetPassword;

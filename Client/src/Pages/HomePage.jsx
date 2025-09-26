@@ -1,45 +1,64 @@
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-import homeimg from '../Assets/Images/homePageMainImage.png'
+import homeimg from "../Assets/Images/homePageMainImage.png";
 import HomeLayout from "../Layouts/HomeLayout";
 
 function HomePage() {
-    return (
-        <HomeLayout>
-            <div className="pt-10 text-white flex flex-col md:flex-row items-center justify-center  mx-5 gap-10 lg:mx-16  h-[50rem] sm:h-[90vh]">
-                <div className=" mt-16 sm:mt-0  flex flex-col justify-center  md:w-1/2 space-y-6">
-                    <h1 className=" text-4xl sm:text-5xl font-semibold">
-                        Find out best
-                        <span className=" text-yellow-500 font-bold">
-                            Online Coures
-                        </span>
-                    </h1>
-                    <p className=" text-lg sm:text-xl text-gray-200">
-                        We have a large library of course taught by highly skilled and qualified faculties at a very affordable rate cost .
-                    </p>
-                    <div className=" space-x-6">
-                        <Link to="/courses">
-                            <button className=" bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer hover:bg-yellow-600 transition-all ease-in-out duration-300">
-                                Explore courses
-                            </button>
-                        </Link>
+  return (
+    <HomeLayout>
+      <div className="relative flex flex-col-reverse lg:flex-row items-center justify-between gap-10 px-6 sm:px-12 lg:px-20 min-h-[90vh] text-white">
+        
+        {/* Left Text Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="flex flex-col gap-6 text-center lg:text-left lg:w-1/2"
+        >
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+            Find the Best{" "}
+            <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+              Online Courses
+            </span>
+          </h1>
 
-                        <Link to="/contact">
-                            <button className=" border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer hover:bg-yellow-600 transition-all ease-in-out duration-300">
-                                Contact Us
-                            </button>
-                        </Link>
+          <p className="text-lg sm:text-xl text-gray-300 max-w-lg mx-auto lg:mx-0">
+            Learn from highly skilled instructors with our vast library of
+            affordable and top-rated online courses.
+          </p>
 
+          <div className="flex flex-wrap justify-center lg:justify-start gap-4 mt-4">
+            <Link to="/courses">
+              <button className="bg-yellow-500 hover:bg-yellow-600 px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:shadow-yellow-500/40 transition-all duration-300">
+                Explore Courses
+              </button>
+            </Link>
 
-                    </div>
-                </div>
-                <div className="lg:w-1/2 flex items-center justify-center ">
-                    <img src={homeimg} alt="homepage image" />
-                </div>
+            <Link to="/contact">
+              <button className="border border-yellow-500 px-6 py-3 rounded-lg font-semibold text-lg hover:bg-yellow-500 hover:text-black shadow-md transition-all duration-300">
+                Contact Us
+              </button>
+            </Link>
+          </div>
+        </motion.div>
 
-            </div>
-
-        </HomeLayout>
-    )
+        {/* Right Image Section */}
+        <motion.div
+          initial={{ opacity: 0, x: 60 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="flex justify-center lg:w-1/2"
+        >
+          <img
+            src={homeimg}
+            alt="homepage illustration"
+            className="max-w-[40rem] w-full drop-shadow-lg"
+          />
+        </motion.div>
+      </div>
+    </HomeLayout>
+  );
 }
+
 export default HomePage;
