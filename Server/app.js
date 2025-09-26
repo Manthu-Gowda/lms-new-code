@@ -12,7 +12,8 @@ import miscRoutes from './routes/miscellanous.routes.js'
 import userRoutes from './routes/user.Routes.js'
 import testRoutes from './routes/test.routes.js';
 import projectRoutes from './routes/project.routes.js';
-import testResultRoutes from './routes/testResult.routes.js'; // Import test result routes
+import testResultRoutes from './routes/testResult.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 
 config();
 
@@ -50,7 +51,8 @@ app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/course', courseRoutes)
 app.use('/api/v1/test', testRoutes);
 app.use('/api/v1/projects', projectRoutes);
-app.use('/api/v1/test-results', testResultRoutes); // Add test result routes
+app.use('/api/v1/test-results', testResultRoutes);
+app.use('/api/v1/admin', adminRoutes);
 app.use('/api/v1', miscRoutes);
 
 // Serve static files from the frontend build directory

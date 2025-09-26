@@ -102,15 +102,17 @@ function DisplayLectures() {
 
             case 'PDF':
                 return (
-                    <div className="w-full h-[30rem] flex items-center justify-center bg-gray-800 rounded-tl-lg rounded-tr-lg">
+                    <div className="w-full h-[30rem] flex flex-col items-center justify-center bg-gray-800 rounded-tl-lg rounded-tr-lg">
+                        <p className="text-lg mb-4">This lecture is a PDF document.</p>
                         <a
                             href={sourceUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg text-lg"
+                            className="text-yellow-500 hover:text-yellow-600 font-semibold py-2 px-4 rounded-lg border border-yellow-500 hover:border-yellow-600 transition-all duration-300"
                         >
-                            Open PDF in New Tab
+                            Open PDF in a new tab
                         </a>
+                        <p className="text-sm mt-4 text-gray-400">If the PDF doesn't open, please check your browser's pop-up blocker settings.</p>
                     </div>
                 );
 

@@ -1,17 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { getAllCourse } from "../../Redux/Slices/CourseSlice.js";
 import { useEffect } from "react";
-import { getStatsData } from "../../Redux/Slices/StatSlice.js";
 import { useNavigate } from "react-router-dom";
 import { deleteCourse } from "../../Redux/Slices/CourseSlice.js";
 import HomeLayout from "../../Layouts/HomeLayout.jsx";
+import { Plus, Trash2, View, ListVideo } from "lucide-react";
 
 function AdminDeshboard() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { courseData: myCoures } = useSelector((state) => state.course);
-  const { allUsersCount } = useSelector((state) => state.stat);
 
   async function onCourseDelete(id) {
     if (window.confirm("Are you sure you want to delete this course?")) {
@@ -25,7 +24,6 @@ function AdminDeshboard() {
   useEffect(() => {
     (async () => {
       await dispatch(getAllCourse());
-      // await dispatch(getStatsData());
     })();
   }, [dispatch]);
 
@@ -35,17 +33,7 @@ function AdminDeshboard() {
         <h1 className="text-center text-5xl font-semibold text-yellow-500">
           Admin Dashboard
         </h1>
-        {/* <div className="grid grid-cols-1 gap-5 m-auto mx-10">
-          <div className="flex flex-col items-center gap-10 p-5 shadow-lg rounded-md">
-            <div className="w-80 h-80 flex items-center justify-center">
-              <p className="font-semibold text-xl">
-                <button onClick={() => navigate("/admin/all-users")}>
-                  All Users: {allUsersCount}
-                </button>
-              </p>
-            </div>
-          </div>
-        </div> */}
+
         <div className="mx-[10%] w-[80%] self-center flex flex-col items-center justify-center gap-10 mb-10">
           <div className="flex w-full items-center justify-between">
             <h1 className="text-center text-3xl font-semibold">
@@ -80,31 +68,35 @@ function AdminDeshboard() {
                     <td>{course.category}</td>
                     <td>{course.createdBy}</td>
                     <td>{course.numbersOfLectures}</td>
-                    <td className="space-x-2">
-                      <button
-                        onClick={() => navigate(`/test/create/${course._id}`, { state: { title: course.title } })}
-                        className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-1 px-2 rounded text-sm"
-                      >
-                        Add Test
-                      </button>
-                      <button
-                        onClick={() => navigate("/course/addlecture", { state: { ...course } })}
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded text-sm"
-                      >
-                        Add New Lecture
-                      </button>
-                      <button
-                        onClick={() => navigate("/course/displaylectures", { state: { ...course } })}
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-2 rounded text-sm"
-                      >
-                        View Lectures
-                      </button>
-                      <button
-                        onClick={() => onCourseDelete(course._id)}
-                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded text-sm"
-                      >
-                        Delete Course
-                      </button>
+                    <td className="space-x-4 flex items-center">
+                        <button
+                          className="relative group"
+                          onClick={() => navigate(`/test/create/${course._id}`, { state: { title: course.title } })}
+                        >
+                          <Plus className="text-purple-500 hover:text-purple-600" />
+                          <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">Add Test</span>
+                        </button>
+                        <button
+                          className="relative group"
+                          onClick={() => navigate("/course/addlecture", { state: { ...course } })}
+                        >
+                          <ListVideo className="text-blue-500 hover:text-blue-600" />
+                           <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">Add New Lecture</span>
+                        </button>
+                        <button
+                          className="relative group"
+                          onClick={() => navigate("/course/displaylectures", { state: { ...course } })}
+                        >
+                          <View className="text-green-500 hover:text-green-600" />
+                           <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">View Lectures</span>
+                        </button>
+                        <button
+                          className="relative group"
+                          onClick={() => onCourseDelete(course._id)}
+                        >
+                          <Trash2 className="text-red-500 hover:text-red-600" />
+                           <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">Delete Course</span>
+                        </button>
                     </td>
                   </tr>
                 ))}

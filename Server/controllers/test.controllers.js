@@ -28,6 +28,11 @@ export const createOrUpdateTest = async (req, res, next) => {
         } else {
             // If test does not exist, create a new one
             test = await Test.create({ courseId, title, questions });
+
+            // Update the course to indicate that it has a test
+            course.hasTest = true;
+            await course.save();
+
             res.status(201).json({
                 success: true,
                 message: 'Test created successfully',
@@ -132,6 +137,13 @@ export const deleteTest = async (req, res, next) => {
         const test = await Test.findByIdAndDelete(testId);
         if (!test) {
             return next(new AppError('Test not found', 404));
+        }
+
+        // Update the course to indicate that it no longer has a test
+        const course = await Course.findById(test.courseId);
+        if (course) {
+            course.hasTest = false;
+            await course.save();
         }
 
         res.status(200).json({

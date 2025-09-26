@@ -1,4 +1,4 @@
-# LMS(Learning Management System )
+# K Startup School
 
 This repository contains the source code and implementation of a Learning Management System (LMS) developed using the MERN stack (MongoDB, Express.js, React, Node.js) along with Tailwind CSS and DaisyUI for styling, and Cloudinary for managing media.
 
@@ -17,7 +17,7 @@ https://youtu.be/T8YZitqdlEY
 
 ## Overview
 
-The Learning Management System (LMS) is a web-based application that facilitates the management and delivery of educational content and training materials. It allows administrators to create courses, manage users, and track progress. Users can access courses, view content, and complete assessments.
+The K Startup School is a web-based application that facilitates the management and delivery of educational content and training materials. It allows administrators to create courses, manage users, and track progress. Users can access courses, view content, and complete assessments.
 
 ## Features
 
@@ -123,7 +123,7 @@ Before running this project locally, ensure you have the following installed:
 
 ## Contributing
 
-We welcome contributions to Learning Management System  Feel free to create pull requests with your enhancements or bug fixes. Please ensure your contributions adhere to the coding style and conventions used in the project.
+We welcome contributions to K Startup School. Feel free to create pull requests with your enhancements or bug fixes. Please ensure your contributions adhere to the coding style and conventions used in the project.
 
 ## Further-Support
 

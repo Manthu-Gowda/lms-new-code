@@ -1,16 +1,50 @@
 import Course from "../models/course.model.js";
+import Test from "../models/test.model.js";
 import AppError from "../utils/error.util.js";
 import cloudinary from 'cloudinary';
 import fs from 'fs/promises';
+import jwt from "jsonwebtoken";
 
-const getAllCourse = async function(_req,res,next){
+const getAllCourse = async function(req,res,next){
    try {
-    const courses = await Course.find({}).select('-lectures');
+    let courses = await Course.find({}).select('-lectures');
+    const tests = await Test.find({});
+
+    for (let i = 0; i < courses.length; i++) {
+        const course = courses[i];
+        const test = tests.find(t => t.courseId.toString() === course._id.toString());
+
+        if (test && !course.hasTest) {
+            course.hasTest = true;
+            await course.save();
+        } else if (!test && course.hasTest) {
+            course.hasTest = false;
+            await course.save();
+        }
+    }
+
+    const {token}= req.cookies;
+    let filteredCourses = courses;
+
+    if(token) {
+        try {
+            const userDetails= await jwt.verify(token , process.env.JWT_SECRET );
+            req.user = userDetails;
+            if(req.user.role !== 'ADMIN'){
+                filteredCourses = courses.filter(course => course.numbersOfLectures > 0 && course.hasTest);
+            }
+        } catch (error) {
+            // If token is invalid or expired, treat as a guest user.
+            filteredCourses = courses.filter(course => course.numbersOfLectures > 0 && course.hasTest);
+        }
+    } else {
+        filteredCourses = courses.filter(course => course.numbersOfLectures > 0 && course.hasTest);
+    }
 
     res.status(200).json({
         success:true,
         message:"All courses",
-        courses,
+        courses: filteredCourses,
     })
    } catch (error) {
     return next(
@@ -72,7 +106,7 @@ const createCourse = async (req, res, next) => {
             courseData.thumbnail.secure_url = result.secure_url;
 
             // Clean up the uploaded file from the local server
-            fs.rm(`uploads/${req.file.filename}`);
+            await fs.rm(`uploads/${req.file.filename}`);
         } catch (error) {
             return next(new AppError('File upload failed, please try again', 500));
         }
@@ -177,22 +211,31 @@ const addLectureToCourseById = async (req, res, next) => {
                 return next(new AppError('File is required for Video or PDF lectures', 400));
             }
 
+            const fileExtension = req.file.originalname.split('.').pop().toLowerCase();
+
+            if (lectureType === 'Video' && fileExtension !== 'mp4') {
+                return next(new AppError('Invalid file type, please upload a video file (mp4).', 400));
+            }
+
+            if (lectureType === 'PDF' && fileExtension !== 'pdf') {
+                return next(new AppError('Invalid file type, please upload a PDF file.', 400));
+            }
+
             try {
-                const result = await cloudinary.v2.uploader.upload(req.file.path, {
-                    folder: 'lms',
-                    resource_type: 'auto',
-                });
+                const uploadOptions = { folder: 'lms' };
+
+                if (lectureType === 'PDF') {
+                    uploadOptions.resource_type = 'image';
+                } else if (lectureType === 'Video') {
+                    uploadOptions.resource_type = 'video';
+                }
+
+                const result = await cloudinary.v2.uploader.upload(req.file.path, uploadOptions);
 
                 lectureData.lecture.public_id = result.public_id;
                 lectureData.lecture.secure_url = result.secure_url;
 
-                if (result.resource_type === 'video') {
-                    lectureData.lectureType = 'Video';
-                } else if (result.format === 'pdf') {
-                    lectureData.lectureType = 'PDF';
-                }
-
-                fs.rm(`uploads/${req.file.filename}`);
+                await fs.rm(`uploads/${req.file.filename}`);
             } catch (error) {
                 return next(new AppError(error.message, 500));
             }

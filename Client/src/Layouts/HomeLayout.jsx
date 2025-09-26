@@ -59,10 +59,11 @@ function HomeLayout({ children }) {
                                 <AiFillCloseCircle size={24} />
                             </button>
                         </li>
+                        {isLoggedIn && role === 'ADMIN' && (
                         <li>
                             <Link to="/">Home</Link>
                         </li>
-
+)}
                         {isLoggedIn && role === 'ADMIN' && (
                             <li>
                                 <Link to="/admin/deshboard">Dashboard</Link>
@@ -127,7 +128,7 @@ function HomeLayout({ children }) {
             <header className="hidden md:flex items-center justify-between px-5 py-4 shadow-md bg-gray-800">
                 <div className="flex items-center">
                     <Link to="/" className="flex items-center gap-2">
-                        <img src={logo} alt="logo" className="h-10 w-auto" />
+                        <img src={logo} alt="logo" className="h-[70px] w-auto" />
                         {/* <span className="text-xl font-bold">Course Builder</span> */}
                     </Link>
                 </div>

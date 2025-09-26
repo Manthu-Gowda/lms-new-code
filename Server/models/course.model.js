@@ -12,7 +12,7 @@ const courseSchema = new Schema({
         type:String,
         required:[true, 'description is required'],
         minLength:[8, 'description must be atleast 8 characters'],
-        maxLength:[200, 'description should be less then 200 characters'],
+        maxLength:[500, 'description should be less then 200 characters'],
     },
     category:{
         type:String,
@@ -53,6 +53,10 @@ const courseSchema = new Schema({
     createdBy:{
         type:String,
         required:true,
+    },
+    hasTest: {
+        type: Boolean,
+        default: false
     }
 },{
     timestamps:true
