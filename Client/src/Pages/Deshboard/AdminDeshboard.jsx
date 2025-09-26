@@ -25,7 +25,7 @@ function AdminDeshboard() {
   useEffect(() => {
     (async () => {
       await dispatch(getAllCourse());
-      await dispatch(getStatsData());
+      // await dispatch(getStatsData());
     })();
   }, [dispatch]);
 

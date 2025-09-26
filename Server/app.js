@@ -29,7 +29,7 @@ app.use(
     cors({
         origin: [
             'https://learning-management-system-roan.vercel.app', // Production
-            'http://localhost:3000' // Development
+            'http://localhost:5173' // Development
         ],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
         preflightContinue: false,
