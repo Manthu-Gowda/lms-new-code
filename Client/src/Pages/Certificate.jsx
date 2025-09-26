@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toPng } from 'html-to-image';
 import { getAllCourse } from '../Redux/Slices/CourseSlice.js';
+import logo from '../Assets/Images/logoimage.png';
 
 function Certificate() {
     const { courseId } = useParams();
@@ -19,15 +20,15 @@ function Certificate() {
 
     const downloadCertificate = () => {
         if (certificateRef.current) {
-            toPng(certificateRef.current, { cacheBust: true, })
+            toPng(certificateRef.current, { cacheBust: true, pixelRatio: 2 }) // Increase pixelRatio for better quality
                 .then((dataUrl) => {
                     const link = document.createElement('a');
-                    link.download = 'certificate.png';
+                    link.download = 'certificate-of-completion.png';
                     link.href = dataUrl;
                     link.click();
                 })
                 .catch((err) => {
-                    console.error('oops, something went wrong!', err);
+                    console.error('Oops, something went wrong!', err);
                 });
         }
     };
@@ -41,19 +42,50 @@ function Certificate() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-10">
-            <div ref={certificateRef} className="w-[800px] h-[600px] bg-white text-gray-800 p-10 flex flex-col items-center justify-center border-4 border-yellow-500 rounded-lg">
-                <h1 className="text-5xl font-bold text-yellow-500 mb-4">Certificate of Completion</h1>
-                <p className="text-2xl mb-4">This is to certify that</p>
-                <h2 className="text-4xl font-bold mb-4">{data?.fullName}</h2>
-                <p className="text-2xl mb-4">has successfully completed the course</p>
-                <h3 className="text-3xl font-bold mb-4">{course?.title}</h3>
-                <p className="text-xl">on</p>
-                <p className="text-2xl font-semibold">{new Date().toLocaleDateString()}</p>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 p-4 sm:p-10">
+            <div ref={certificateRef} className="w-full max-w-4xl h-[600px] bg-white text-gray-800 shadow-2xl flex flex-col">
+                <div className="flex-grow p-8 md:p-12">
+                    <div className="flex justify-between items-start">
+                        <div className="text-left">
+                            <h1 className="text-4xl md:text-5xl font-bold text-gray-800" style={{fontFamily: 'serif'}}>
+                                Certificate
+                            </h1>
+                            <p className="text-xl md:text-2xl text-gray-600" style={{fontFamily: 'serif'}}>
+                                of Completion
+                            </p>
+                        </div>
+                        <img src={logo} alt="Logo" className="w-20 h-20" />
+                    </div>
+                    <div className="mt-8 text-center">
+                        <p className="text-lg text-gray-600 mb-2">This certificate is proudly presented to</p>
+                        <h2 className="text-4xl md:text-5xl font-extrabold text-blue-900" style={{fontFamily: 'cursive'}}>
+                            {data?.fullName}
+                        </h2>
+                        <div className="w-1/2 mx-auto border-t-2 border-gray-300 my-6"></div>
+                        <p className="text-lg text-gray-600 mb-2">for successfully completing the course</p>
+                        <h3 className="text-3xl md:text-4xl font-bold text-gray-800">
+                            {course?.title}
+                        </h3>
+                    </div>
+                </div>
+                <div className="bg-blue-900 text-white p-6 md:p-8 flex justify-between items-center">
+                    <div className="text-left">
+                        <p className="font-semibold">{course?.createdBy}</p>
+                        <p className="text-sm">Instructor</p>
+                    </div>
+                    <div className="text-center">
+                        <p className="font-semibold">LMS Platform</p>
+                        <p className="text-sm">Issuing Organization</p>
+                    </div>
+                    <div className="text-right">
+                        <p className="font-semibold">{new Date().toLocaleDateString()}</p>
+                        <p className="text-sm">Date of Issue</p>
+                    </div>
+                </div>
             </div>
             <button 
                 onClick={downloadCertificate}
-                className="mt-10 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded"
+                className="mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition-transform transform hover:scale-105"
             >
                 Download Certificate
             </button>
