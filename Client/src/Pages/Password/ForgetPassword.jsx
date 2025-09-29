@@ -42,17 +42,17 @@ function ForgetPassword() {
           onSubmit={handleFormSubmit}
           className="flex flex-col gap-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-2xl p-8 w-full max-w-md text-white"
         >
-          <h1 className="text-center text-3xl font-bold">
+          <h1 className="text-center text-3xl font-bold text-black">
             Forgot Password 🔑
           </h1>
-          <p className="text-center text-gray-300 text-sm leading-relaxed">
+          <p className="text-center text-gray-600 text-sm leading-relaxed">
             Enter your registered email and we’ll send you a verification link
             to reset your password.
           </p>
 
           {/* Email Input */}
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="font-medium text-sm text-gray-200">
+            <label htmlFor="email" className="font-medium text-sm text-gray-800">
               Email Address
             </label>
             <div className="flex items-center gap-2 bg-white/5 border border-white/20 rounded-lg px-3 py-2 focus-within:border-yellow-500">
@@ -63,7 +63,7 @@ function ForgetPassword() {
                 name="email"
                 id="email"
                 placeholder="Enter your registered email"
-                className="w-full bg-transparent outline-none text-white placeholder-gray-400"
+                className="w-full bg-transparent outline-none text-black placeholder-gray-500"
                 value={data.email}
                 onChange={(e) => setData({ email: e.target.value })}
               />
@@ -79,7 +79,7 @@ function ForgetPassword() {
           </button>
 
           {/* Back to Login */}
-          <p className="text-center text-gray-300 text-sm">
+          <p className="text-center text-gray-600 text-sm">
             Already have an account?{" "}
             <Link
               to="/login"

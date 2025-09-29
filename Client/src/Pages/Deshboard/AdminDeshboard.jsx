@@ -36,7 +36,7 @@ function AdminDeshboard() {
 
         <div className="mx-[10%] w-[80%] self-center flex flex-col items-center justify-center gap-10 mb-10">
           <div className="flex w-full items-center justify-between">
-            <h1 className="text-center text-3xl font-semibold">
+            <h1 className="text-3xl font-semibold text-black">
               Courses Overview
             </h1>
             <button
@@ -50,7 +50,7 @@ function AdminDeshboard() {
           </div>
           <div className="overflow-x-auto w-full">
             <table className="table w-full">
-              <thead>
+              <thead className="text-black">
                 <tr>
                   <th>S No</th>
                   <th>Course Title</th>
@@ -60,7 +60,7 @@ function AdminDeshboard() {
                   <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="text-black">
                 {myCoures?.map((course, idx) => (
                   <tr key={course._id}>
                     <td>{idx + 1}</td>
@@ -69,34 +69,54 @@ function AdminDeshboard() {
                     <td>{course.createdBy}</td>
                     <td>{course.numbersOfLectures}</td>
                     <td className="space-x-4 flex items-center">
-                        <button
-                          className="relative group"
-                          onClick={() => navigate(`/test/create/${course._id}`, { state: { title: course.title } })}
-                        >
-                          <Plus className="text-purple-500 hover:text-purple-600" />
-                          <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">Add Test</span>
-                        </button>
-                        <button
-                          className="relative group"
-                          onClick={() => navigate("/course/addlecture", { state: { ...course } })}
-                        >
-                          <ListVideo className="text-blue-500 hover:text-blue-600" />
-                           <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">Add New Lecture</span>
-                        </button>
-                        <button
-                          className="relative group"
-                          onClick={() => navigate("/course/displaylectures", { state: { ...course } })}
-                        >
-                          <View className="text-green-500 hover:text-green-600" />
-                           <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">View Lectures</span>
-                        </button>
-                        <button
-                          className="relative group"
-                          onClick={() => onCourseDelete(course._id)}
-                        >
-                          <Trash2 className="text-red-500 hover:text-red-600" />
-                           <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">Delete Course</span>
-                        </button>
+                      <button
+                        className="relative group"
+                        onClick={() =>
+                          navigate(`/test/create/${course._id}`, {
+                            state: { title: course.title },
+                          })
+                        }
+                      >
+                        <Plus className="text-purple-500 hover:text-purple-600" />
+                        <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">
+                          Add Test
+                        </span>
+                      </button>
+                      <button
+                        className="relative group"
+                        onClick={() =>
+                          navigate("/course/addlecture", {
+                            state: { ...course },
+                          })
+                        }
+                      >
+                        <ListVideo className="text-blue-500 hover:text-blue-600" />
+                        <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">
+                          Add New Lecture
+                        </span>
+                      </button>
+                      <button
+                        className="relative group"
+                        onClick={() =>
+                          navigate("/course/displaylectures", {
+                            state: { ...course },
+                          })
+                        }
+                      >
+                        <View className="text-green-500 hover:text-green-600" />
+                        <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">
+                          View Lectures
+                        </span>
+                      </button>
+                      <button
+                        className="relative group"
+                        onClick={() => onCourseDelete(course._id)}
+                      >
+                        <Trash2 className="text-red-500 hover:text-red-600" />
+                        <span className="absolute hidden group-hover:block bg-gray-800 text-white text-xs rounded py-1 px-2 bottom-full mb-1 whitespace-nowrap">
+                          Delete Course
+                        </span>
+                      </button>
                     </td>
                   </tr>
                 ))}

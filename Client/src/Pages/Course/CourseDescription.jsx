@@ -35,10 +35,10 @@ function CourseDescription() {
               {state?.title}
             </h1>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 py-10 relative w-1/2 md:w-[80%]">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 py-10 relative w-1/2 md:w-[90%]">
             <div className="space-y-3">
               <img
-                className="w-full h-64 object-cover rounded-modern"
+                className="w-full h-64 rounded-modern"
                 alt="thumbnail"
                 src={state?.thumbnail?.secure_url}
               />

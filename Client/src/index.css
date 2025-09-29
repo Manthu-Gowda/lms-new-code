@@ -1,7 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-body{
+
 :root {
   --color-bg-soft: hsla(26,92%,91%,.4);
   --color-grad-wash: linear-gradient(180deg, #ffa347 25%, hsla(0,0%,100%,.6) 80.76%);
@@ -24,22 +24,22 @@ html, body {
 
 /* Modern Button Styles */
 .btn-modern {
-  border-radius: var(--btn-radius);
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
+  border-radius: var(--btn-radius) !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+  border: none !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-decoration: none !important;
 }
 
 .btn-primary {
-  background: var(--color-accent);
-  color: var(--color-white);
-  box-shadow: var(--shadow-sm);
+  background: var(--color-accent) !important;
+  color: var(--color-white) !important;
+  box-shadow: var(--shadow-sm) !important;
 }
 
 .btn-primary:hover {
@@ -100,10 +100,10 @@ html, body {
   margin: 0 auto;
   padding: 0 1.5rem;
 }
-    margin: auto;
+    /* margin: auto; */
     /* max-width: 1440px; */
-    position: relative;
-}
+    /* position: relative; */
+
 
 ::-webkit-scrollbar {
   width: 0px;

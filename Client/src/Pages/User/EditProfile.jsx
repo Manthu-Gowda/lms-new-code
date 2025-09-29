@@ -72,7 +72,7 @@ function EditProfile() {
           onSubmit={onFormSubmit}
           className="flex flex-col gap-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-2xl p-8 w-full max-w-lg text-white"
         >
-          <h1 className=" text-center text-2xl font-semibold ">Edit Profile</h1>
+          <h1 className=" text-center text-2xl font-semibold text-black ">Edit Profile</h1>
           <label className=" cursor-pointer" htmlFor="image_uploads">
             {data.previewImage ? (
               <img
@@ -93,8 +93,7 @@ function EditProfile() {
           />
 
           <div className=" w-full flex flex-col gap-1">
-            <label htmlFor="fullName" className="font-semibold">
-              {" "}
+            <label htmlFor="fullName" className="font-semibold text-black">
               Full Name
             </label>
             <input

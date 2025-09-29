@@ -69,7 +69,8 @@ function Contact() {
 
           {/* Name Field */}
           <div className="flex flex-col gap-2">
-            <label htmlFor="name" className="font-medium text-sm text-gray-200">
+            <label htmlFor="name" className="font-medium text-sm"
+              style={{ color: 'var(--color-black)' }}>
               Name
             </label>
             <div className="flex items-center gap-2 input-modern">
@@ -89,17 +90,19 @@ function Contact() {
 
           {/* Email Field */}
           <div className="flex flex-col gap-2">
-            <label htmlFor="email" className="font-medium text-sm text-gray-200">
+            <label htmlFor="email" className="font-medium text-sm"
+              style={{ color: 'var(--color-black)' }}>
               Email
             </label>
-            <div className="flex items-center gap-2 bg-white/5 border border-white/20 rounded-lg px-3 py-2 focus-within:border-yellow-500">
-              <Mail className="w-5 h-5 text-gray-400" />
+            <div className="flex items-center gap-2 input-modern">
+              <Mail className="w-5 h-5" style={{ color: 'var(--color-black)', opacity: 0.5 }} />
               <input
                 type="email"
                 name="email"
                 id="email"
                 placeholder="Enter your email"
-                className="w-full bg-transparent outline-none text-white placeholder-gray-400"
+                className="w-full bg-transparent outline-none border-none"
+                style={{ color: 'var(--color-black)' }}
                 onChange={handleInputChange}
                 value={userInput.email}
               />
@@ -112,17 +115,18 @@ function Contact() {
               htmlFor="message"
               className="font-medium text-sm"
               style={{ color: 'var(--color-black)' }}
-              className="font-medium text-sm"
-              style={{ color: 'var(--color-black)' }}
+            >
               Message
             </label>
-            <div className="flex items-center gap-2 input-modern">
             <div className="flex items-start gap-2 input-modern">
-              <MessageSquare className="w-5 h-5 mt-1" style={{ color: 'var(--color-black)', opacity: 0.5 }} />
+              <MessageSquare
+                className="w-5 h-5 mt-1"
+                style={{ color: 'var(--color-black)', opacity: 0.5 }}
+              />
+              <textarea
                 name="message"
                 id="message"
                 placeholder="Enter your message..."
-                className="w-full bg-transparent outline-none border-none"
                 className="w-full bg-transparent outline-none border-none resize-none h-32"
                 style={{ color: 'var(--color-black)' }}
                 onChange={handleInputChange}
@@ -141,7 +145,6 @@ function Contact() {
         </form>
       </div>
     </HomeLayout>
-  )
   );
 }
 
