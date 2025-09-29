@@ -141,6 +141,7 @@ function Contact() {
         </form>
       </div>
     </HomeLayout>
+  )
   );
 }
 
