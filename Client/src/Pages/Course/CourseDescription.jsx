@@ -16,13 +16,14 @@ function CourseDescription() {
 
   return (
     <HomeLayout>
-      <div className="min-h-[90vh] pt-12 md:px-20 flex flex-col items-center justify-center text-white">
-        <div className="flex flex-col items-center justify-center md:shadow-[0_0_10px_black] md:w-[50rem]">
+      <div className="min-h-[90vh] pt-12 md:px-20 flex flex-col items-center justify-center section-modern">
+        <div className="flex flex-col items-center justify-center card-modern md:w-[50rem]">
           {/* Back Arrow Icon */}
           <div className="self-start ml-5 mt-5">
             <button
               onClick={() => navigate("/courses")}
-              className="flex items-center text-yellow-500 hover:text-yellow-400 transition-all ease-in-out duration-300"
+              className="flex items-center transition-all ease-in-out duration-300 hover:opacity-80"
+              style={{ color: 'var(--color-accent)' }}
             >
               <AiOutlineArrowLeft className="mr-2" size={24} />
               Back to Courses
@@ -30,24 +31,24 @@ function CourseDescription() {
           </div>
 
           <div className="mt-5">
-            <h1 className="text-3xl font-bold text-yellow-500 mb-2 text-center">
+            <h1 className="text-3xl font-bold mb-2 text-center" style={{ color: 'var(--color-accent)' }}>
               {state?.title}
             </h1>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 py-10 relative w-1/2 md:w-[80%]">
             <div className="space-y-3">
               <img
-                className="w-full h-64 object-cover"
+                className="w-full h-64 object-cover rounded-modern"
                 alt="thumbnail"
                 src={state?.thumbnail?.secure_url}
               />
               <div className="space-y-1">
                 <div className="flex flex-col items-center justify-center text-xl">
-                  <p className="font-semibold">
+                  <p className="font-semibold" style={{ color: 'var(--color-black)' }}>
                     <span>Total lectures: </span>
                     {state?.numberOfLectures}
                   </p>
-                  <p className="font-semibold">
+                  <p className="font-semibold" style={{ color: 'var(--color-black)' }}>
                     <span>Instructor: </span>
                     {state?.createdBy}
                   </p>
@@ -56,22 +57,22 @@ function CourseDescription() {
             </div>
 
             <div className="space-y-3 text-xl">
-              <p className="text-yellow-500">Course description:</p>
-              <p className="lg:h-48 overflow-y-auto">{state?.description}</p>
+              <p style={{ color: 'var(--color-accent)' }}>Course description:</p>
+              <p className="lg:h-48 overflow-y-auto" style={{ color: 'var(--color-black)', opacity: 0.8 }}>{state?.description}</p>
 
               {isLoggedIn ? (
                 <button
                   onClick={() =>
                     navigate("/course/displaylectures", { state: { ...state } })
                   }
-                  className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300"
+                  className="btn-modern btn-primary text-xl w-full"
                 >
                   Watch Lectures
                 </button>
               ) : (
                 <button
                   onClick={() => navigate("/login")}
-                  className="bg-yellow-600 text-xl rounded-md font-bold px-5 py-3 w-full hover:bg-yellow-500 transition-all ease-in-out duration-300"
+                  className="btn-modern btn-primary text-xl w-full"
                 >
                   Login to Enroll for Free
                 </button>

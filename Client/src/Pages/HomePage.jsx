@@ -7,7 +7,7 @@ import HomeLayout from "../Layouts/HomeLayout";
 function HomePage() {
   return (
     <HomeLayout>
-      <div className="relative flex flex-col-reverse lg:flex-row items-center justify-between gap-10 px-6 sm:px-12 lg:px-20 min-h-[90vh] text-white">
+      <div className="relative flex flex-col-reverse lg:flex-row items-center justify-between gap-10 px-6 sm:px-12 lg:px-20 min-h-[90vh]" style={{ background: 'var(--color-grad-wash)', color: 'var(--color-black)' }}>
         
         {/* Left Text Section */}
         <motion.div
@@ -18,25 +18,25 @@ function HomePage() {
         >
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
             Find the Best{" "}
-            <span className="bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
+            <span style={{ color: 'var(--color-accent)' }}>
               Online Courses
             </span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-gray-300 max-w-lg mx-auto lg:mx-0">
+          <p className="text-lg sm:text-xl max-w-lg mx-auto lg:mx-0" style={{ color: 'var(--color-black)', opacity: 0.8 }}>
             Learn from highly skilled instructors with our vast library of
             affordable and top-rated online courses.
           </p>
 
           <div className="flex flex-wrap justify-center lg:justify-start gap-4 mt-4">
             <Link to="/courses">
-              <button className="bg-yellow-500 hover:bg-yellow-600 px-6 py-3 rounded-lg font-semibold text-lg shadow-md hover:shadow-yellow-500/40 transition-all duration-300">
+              <button className="btn-modern btn-primary text-lg px-8 py-4">
                 Explore Courses
               </button>
             </Link>
 
             <Link to="/contact">
-              <button className="border border-yellow-500 px-6 py-3 rounded-lg font-semibold text-lg hover:bg-yellow-500 hover:text-black shadow-md transition-all duration-300">
+              <button className="btn-modern btn-secondary text-lg px-8 py-4">
                 Contact Us
               </button>
             </Link>

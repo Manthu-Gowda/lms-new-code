@@ -22,38 +22,39 @@ function Profile() {
   return (
     <HomeLayout>
       <div className="min-h-[90vh] flex items-center justify-center">
-        <div className="flex flex-col gap-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-2xl p-8 w-full max-w-lg text-white">
+        <div className="flex flex-col gap-6 card-modern w-full max-w-lg">
           <img
-            className="w-40 m-auto rounded-full border border-black"
+            className="w-40 m-auto rounded-full border-2"
+            style={{ borderColor: 'var(--color-accent)' }}
             src={userData?.avatar?.secure_url}
           />
 
-          <h3 className="text-xl font-semibold  text-center capitalize">
+          <h3 className="text-xl font-semibold text-center capitalize" style={{ color: 'var(--color-black)' }}>
             {userData?.fullName}
           </h3>
-          <div className="grid  grid-cols-2 ">
-            <p>Email: </p>
-            <p>{userData?.email}</p>
-            <p>Role: </p>
-            <p>{userData?.role}</p>
-            <p>Subscription: </p>
-            <p>
+          <div className="grid grid-cols-2 gap-2" style={{ color: 'var(--color-black)' }}>
+            <p className="font-medium">Email: </p>
+            <p className="opacity-80">{userData?.email}</p>
+            <p className="font-medium">Role: </p>
+            <p className="opacity-80">{userData?.role}</p>
+            <p className="font-medium">Subscription: </p>
+            <p className="opacity-80">
               {userData?.subscription?.status === "active"
                 ? "Active"
                 : "Inactive"}
             </p>
           </div>
-          <div className="flex items-center justify-between gap-10 ">
+          <div className="flex items-center justify-between gap-4">
             <Link
               to="/change-password"
-              className="w-1/2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out  text-center duration-300  rounded-md  font-semibold py-2 cursor-pointer"
+              className="btn-modern btn-primary w-1/2 text-center"
             >
               <button>Change password</button>
             </Link>
 
             <Link
               to="/user/editprofile"
-              className="w-1/2 bg-yellow-600 hover:bg-yellow-500 transition-all ease-in-out duration-300  text-center rounded-md   font-semibold py-2 cursor-pointer"
+              className="btn-modern btn-secondary w-1/2 text-center"
             >
               <button>Edit Profile</button>
             </Link>
@@ -61,7 +62,12 @@ function Profile() {
           {userData?.subscription?.status === "active" && (
             <button
               onClick={handleCancelation}
-              className="w-full bg-red-600  hover:bg-red-500 transition-all ease-in-out duration-300 rounded-sm  font-semibold py-2 cursor-pointer"
+              className="w-full btn-modern font-semibold py-2 cursor-pointer transition-all ease-in-out duration-300"
+              style={{ 
+                background: '#dc2626', 
+                color: 'var(--color-white)',
+                borderRadius: 'var(--btn-radius)'
+              }}
             >
               Cancel Subscription
             </button>
@@ -69,7 +75,8 @@ function Profile() {
           <div className="self-center mt-3">
             <button
               onClick={() => navigate("/")}
-              className="flex items-center text-yellow-500 hover:text-yellow-400 transition-all ease-in-out duration-300"
+              className="flex items-center transition-all ease-in-out duration-300 hover:opacity-80"
+              style={{ color: 'var(--color-accent)' }}
             >
               <AiOutlineArrowLeft className="mr-2" size={24} />
               Go Back

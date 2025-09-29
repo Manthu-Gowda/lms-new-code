@@ -59,10 +59,10 @@ function Contact() {
         <form
           noValidate
           onSubmit={onFormSubmit}
-          className="flex flex-col gap-6 bg-white/10 backdrop-blur-md border border-white/20 shadow-lg rounded-2xl p-8 w-full max-w-lg text-white"
+          className="flex flex-col gap-6 card-modern w-full max-w-lg"
         >
-          <h1 className="text-center text-3xl font-bold">Contact Us ✉️</h1>
-          <p className="text-center text-gray-300 text-sm">
+          <h1 className="text-center text-3xl font-bold" style={{ color: 'var(--color-black)' }}>Contact Us ✉️</h1>
+          <p className="text-center text-sm" style={{ color: 'var(--color-black)', opacity: 0.7 }}>
             Have questions or feedback? Send us a message and we’ll get back to
             you soon.
           </p>
@@ -72,14 +72,15 @@ function Contact() {
             <label htmlFor="name" className="font-medium text-sm text-gray-200">
               Name
             </label>
-            <div className="flex items-center gap-2 bg-white/5 border border-white/20 rounded-lg px-3 py-2 focus-within:border-yellow-500">
-              <User className="w-5 h-5 text-gray-400" />
+            <div className="flex items-center gap-2 input-modern">
+              <User className="w-5 h-5" style={{ color: 'var(--color-black)', opacity: 0.5 }} />
               <input
                 type="text"
                 name="name"
                 id="name"
                 placeholder="Enter your name"
-                className="w-full bg-transparent outline-none text-white placeholder-gray-400"
+                className="w-full bg-transparent outline-none border-none"
+                style={{ color: 'var(--color-black)' }}
                 onChange={handleInputChange}
                 value={userInput.name}
               />
@@ -109,17 +110,21 @@ function Contact() {
           <div className="flex flex-col gap-2">
             <label
               htmlFor="message"
-              className="font-medium text-sm text-gray-200"
-            >
+              className="font-medium text-sm"
+              style={{ color: 'var(--color-black)' }}
+              className="font-medium text-sm"
+              style={{ color: 'var(--color-black)' }}
               Message
             </label>
-            <div className="flex items-start gap-2 bg-white/5 border border-white/20 rounded-lg px-3 py-2 focus-within:border-yellow-500">
-              <MessageSquare className="w-5 h-5 text-gray-400 mt-1" />
-              <textarea
+            <div className="flex items-center gap-2 input-modern">
+            <div className="flex items-start gap-2 input-modern">
+              <MessageSquare className="w-5 h-5 mt-1" style={{ color: 'var(--color-black)', opacity: 0.5 }} />
                 name="message"
                 id="message"
                 placeholder="Enter your message..."
-                className="w-full bg-transparent outline-none text-white placeholder-gray-400 resize-none h-32"
+                className="w-full bg-transparent outline-none border-none"
+                className="w-full bg-transparent outline-none border-none resize-none h-32"
+                style={{ color: 'var(--color-black)' }}
                 onChange={handleInputChange}
                 value={userInput.message}
               />
@@ -129,7 +134,7 @@ function Contact() {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-2 rounded-lg transition-all duration-300 shadow-md hover:shadow-yellow-500/40"
+            className="w-full btn-modern btn-primary"
           >
             Send Message
           </button>
